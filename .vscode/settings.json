@@ -1,0 +1,8 @@
+{
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/f7cf3673-8dc7-46b4-8bf6-ff0c5100bbb2/resourceGroups/heartenResourceGroup/providers/Microsoft.Web/sites/cornerman2webapp",
+    "appService.deploySubpath": "cornerman"
+}
