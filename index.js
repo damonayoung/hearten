@@ -60,23 +60,24 @@ adapter.onTurnError = onTurnErrorHandler;
 const myBot = new EchoBot();
 
 // Test route
-server.get('/', (req, res) => {
+server.get('/', (req, res, next) => {
     console.log('Received GET request on /');
     res.send('Bot is running!');
 });
 
 // Listen for incoming requests.
-server.post('/api/messages', async (req, res) => {
+server.post('/api/messages', (req, res, next) => {
     console.log('Received a message on /api/messages');
     console.log('Request headers:', JSON.stringify(req.headers));
     console.log('Request body:', JSON.stringify(req.body));
-    try {
-        await adapter.process(req, res, (context) => myBot.run(context));
+    adapter.process(req, res, async (context) => {
+        await myBot.run(context);
         console.log('Message processed successfully');
-    } catch (err) {
+    }).catch(err => {
         console.error('Error processing message:', err);
         res.status(500).send('Internal Server Error');
-    }
+        next(err);
+    });
 });
 
 // Listen for Upgrade requests for Streaming.
